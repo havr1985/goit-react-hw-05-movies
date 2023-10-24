@@ -8,7 +8,12 @@ const options = {
   }
 };
 
-export async function fetchTrandingList() {
-    const response = await axios.get('https://api.themoviedb.org/3/trending//movie/week?', options);
+export async function fetchTrandingList(page) {
+    const response = await axios.get(`https://api.themoviedb.org/3/trending//movie/week?page=${page}`, options);
     return response.data.results;
+};
+
+export async function fetchMovieById(id) {
+  const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}`, options);
+  return response.data;
 }
