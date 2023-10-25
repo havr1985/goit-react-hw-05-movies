@@ -2,6 +2,7 @@ import { fetchMovieById } from "Api";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MovieDetailsMarkup } from "components/MovieDetailsMarkup/MovieDetailsMarkup";
+import { Link, Outlet } from "react-router-dom";
 
 export default function MovieDetails() {
     const params = useParams();
@@ -43,7 +44,13 @@ export default function MovieDetails() {
     <main>
             {loading && ("Loading...")}
             {error && ("ERROR")}
-            {movie && (<MovieDetailsMarkup movie={movie}/>)}
+            {movie && (<MovieDetailsMarkup movie={movie} />)}
+            <ul>
+                <li>
+                    <Link to='cast'>CAST</Link>
+                </li>   
+            </ul>
+            <Outlet/>
     </main>
     )
 }

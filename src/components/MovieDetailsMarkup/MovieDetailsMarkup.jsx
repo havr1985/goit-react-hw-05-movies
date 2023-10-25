@@ -7,6 +7,7 @@ export const MovieDetailsMarkup = ({ movie: { original_title, overview, poster_p
     newGenres = newGenres.join(', ')
 
     return (
+    <>
         <DetailsWrap>
             <Img src={url} alt={original_title} />
             <TextWrap>
@@ -18,6 +19,8 @@ export const MovieDetailsMarkup = ({ movie: { original_title, overview, poster_p
                 <p>{newGenres}</p>
             </TextWrap>
         </DetailsWrap>
+        
+    </>
     )
 
 }
