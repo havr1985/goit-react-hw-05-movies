@@ -9,4 +9,14 @@ export async function fetchTrandingList(page, options) {
 export async function fetchMovieById(id, options) {
   const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}`, options);
   return response.data;
-}
+};
+
+export async function fetchCast(id, options) {
+  const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}/credits`, options);
+  return response.data.cast;
+};
+
+export async function fetchReviews(id, options) {
+  const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}/reviews`, options);
+  return response.data;
+};

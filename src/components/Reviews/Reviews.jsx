@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchCast } from "Api";
-import { CastList } from "components/CastList/CastList";
+import { fetchReviews } from "Api";
+import { ReviewsList } from "components/ReviewsList/ReviewsList";
 
 
-export default function Cast() {
+export default function Reviews() {
     const params = useParams();
-    const [cast, setCast] = useState();
+    const [reviews, setReviews] = useState();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
@@ -19,13 +19,13 @@ export default function Cast() {
             },
             signal: controller.signal
         };
-        async function getCast() {
+        async function getReviews() {
             try {
                 setLoading(true);
                 setError(false);
-                const fetchedCast = await fetchCast(params.movieId, options);
-                setCast(fetchedCast);
-                console.log(fetchedCast)
+                const fetchedReviews = await fetchReviews(params.movieId, options);
+                setReviews(fetchedReviews);
+                console.log(fetchedReviews.results)
             } catch (error) {
                 if (error.code !== 'ERR_CANCELED') {
                     setError(true)
@@ -34,20 +34,19 @@ export default function Cast() {
                 setLoading(false)
             }
         }
-        getCast();
+        getReviews();
         
         return () => {
             controller.abort();
         }
     }, [params.movieId]);
 
-
-
     return (
-    <div>
-        {loading && ("Loading...")}
-        {error && ("ERROR")}
-        {cast && (<CastList cast={cast} />)}    
-    </div>
+        <div>
+            {loading && ("Loading...")}
+            {error && ("ERROR")}
+            {reviews && (<ReviewsList reviews={reviews.results} />)}
+        </div>
     )
-}
+    
+};
