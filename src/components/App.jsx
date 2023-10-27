@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Layout } from "./Layout";
 import { Home } from "pages/Home";
-import { Movies } from "pages/Movies";
+import  Movies  from "pages/Movies";
 import MovieDetails from "pages/MovieDetails";
 import Cast from "./Cast/Cast";
 import Reviews from "./Reviews/Reviews";

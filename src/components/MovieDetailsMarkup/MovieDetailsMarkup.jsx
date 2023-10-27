@@ -1,7 +1,12 @@
 import { DetailsWrap, Img, TextWrap } from "./MovieDetailsMarkup.styled";
 
 export const MovieDetailsMarkup = ({ movie: { original_title, overview, poster_path, genres, vote_average } }) => {
-    let url = `https://image.tmdb.org/t/p/w300${poster_path}`;
+    let url = "";
+    if (poster_path) {
+        url = `https://image.tmdb.org/t/p/w300/${poster_path}`;
+        } else {
+        url = 'https://ranobehub.org/img/ranobe/posters/default.jpg';
+    };
     let newGenres = [];
     genres.forEach(genre => newGenres.push(genre.name));
     newGenres = newGenres.join(', ')

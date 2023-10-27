@@ -8,6 +8,7 @@ align-items: center;
 `
 export const Img = styled.img`
 width: 200px;
+height: 300px;
 border-top-left-radius: 8px;
 border-top-right-radius: 8px;
 `

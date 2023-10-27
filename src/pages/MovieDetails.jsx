@@ -1,15 +1,19 @@
 import { fetchMovieById } from "Api";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { MovieDetailsMarkup } from "components/MovieDetailsMarkup/MovieDetailsMarkup";
 import { Outlet } from "react-router-dom";
 import { MovieDetailsNav } from "components/MovieDetailsNav/MovieDetailsNav";
+import { BackLink } from "components/BackLink/BackLink";
 
 export default function MovieDetails() {
     const params = useParams();
     const [movie, setMovie] = useState();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const location = useLocation();
+    const backLinkRef = useRef(location.state?.from ?? '/movies');
+    console.log(backLinkRef)
 
     useEffect(() => {
         const controller = new AbortController();
@@ -42,7 +46,8 @@ export default function MovieDetails() {
     }, [params.movieId]);
 
     return (
-    <main>
+        <main>
+            <BackLink to={backLinkRef.current}/> 
             {loading && ("Loading...")}
             {error && ("ERROR")}
             {movie && (<MovieDetailsMarkup movie={movie} />)}
