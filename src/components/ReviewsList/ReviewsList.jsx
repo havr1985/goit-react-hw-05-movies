@@ -7,7 +7,7 @@ export const ReviewsList = ({ reviews }) => {
                 Does not have any reviews for this movie yet
             </ErrMsg>
         )
-    }
+    };
     return (
         <List>
             {reviews.map(({ author, content, id }) => {
@@ -19,5 +19,5 @@ export const ReviewsList = ({ reviews }) => {
                 )
             })}
         </List>
-    )   
+    );  
 };

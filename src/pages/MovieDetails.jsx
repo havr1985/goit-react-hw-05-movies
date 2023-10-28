@@ -5,15 +5,16 @@ import { MovieDetailsMarkup } from "components/MovieDetailsMarkup/MovieDetailsMa
 import { Outlet } from "react-router-dom";
 import { MovieDetailsNav } from "components/MovieDetailsNav/MovieDetailsNav";
 import { BackLink } from "components/BackLink/BackLink";
+import { Suspense } from "react";
+import { ErrorMsg } from "components/ErrorMessage/ErrorMessage";
+import { LoadSpinner } from "components/Loader";
 
 export default function MovieDetails() {
     const params = useParams();
     const [movie, setMovie] = useState();
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const location = useLocation();
     const backLinkRef = useRef(location.state?.from ?? '/movies');
-    console.log(backLinkRef)
 
     useEffect(() => {
         const controller = new AbortController();
@@ -26,19 +27,15 @@ export default function MovieDetails() {
         };
         async function getMovie() {
             try {
-                setLoading(true);
                 setError(false);
                 const fetchedMovie = await fetchMovieById(params.movieId, options);
                 setMovie(fetchedMovie);
-                console.log(fetchedMovie)
             } catch (error) {
                 if (error.code !== 'ERR_CANCELED') {
                     setError(true)
                 }
-            } finally {
-                setLoading(false)
             }
-        }
+        };
         getMovie()
         return () => {
             controller.abort();
@@ -47,12 +44,13 @@ export default function MovieDetails() {
 
     return (
         <main>
-            <BackLink to={backLinkRef.current}/> 
-            {loading && ("Loading...")}
-            {error && ("ERROR")}
+            <BackLink to={backLinkRef.current} />
+            {error && (<ErrorMsg />)}
             {movie && (<MovieDetailsMarkup movie={movie} />)}
-            <MovieDetailsNav/>
-            <Outlet/>
-    </main>
-    )
-}
+            <MovieDetailsNav />
+            <Suspense fallback={<LoadSpinner />}>
+                <Outlet />
+            </Suspense>
+        </main>
+    );
+};

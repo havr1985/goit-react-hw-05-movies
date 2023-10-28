@@ -2,12 +2,11 @@ import { fetchTrandingList } from "Api";
 import { MoviesList } from "components/MoviesList/MoviesList";
 import { useEffect, useState } from "react";
 import { LoadMore } from "components/LoadMore/LoadMore";
+import { ErrorMsg } from "components/ErrorMessage/ErrorMessage";
  
-
-export const Home = () => {
+export default function Home() {
     const [movies, setMovies] = useState([]);
     const [page, setPage] = useState(1);
-    const [ loading, setLoading ] = useState(false);
     const [error, setError] = useState(false);
 
     const handleLoadMore = () => {
@@ -26,7 +25,6 @@ export const Home = () => {
 
         async function getMoviesLIst() {
             try {
-                setLoading(true);
                 setError(false);
                 const moviesData = await fetchTrandingList(page, options);
                 setMovies(prevState => ([...prevState, ...moviesData]));
@@ -34,8 +32,6 @@ export const Home = () => {
                 if (error.code !== 'ERR_CANCELED') {
                     setError(true);
                 };
-            } finally {
-                setLoading(false)
             }
         };
         getMoviesLIst();
@@ -44,14 +40,11 @@ export const Home = () => {
         }
     }, [page]);
 
-
     return (
         <main>
-            {loading && ("Loading...")}
-            {error && ("ERROR")}
+            {error && (<ErrorMsg />)}
             <MoviesList movies={movies} />
             {movies.length > 0 && <LoadMore onClick={handleLoadMore} />}
         </main>
-        
-    )
-}
+    );
+};

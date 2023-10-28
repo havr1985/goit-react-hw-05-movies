@@ -10,5 +10,5 @@ export const MoviesList = ({ movies }) => {
                 </Item>
             ))}
         </List>
-    ) 
+    );
 };

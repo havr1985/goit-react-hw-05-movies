@@ -9,19 +9,18 @@ export const CastList = ({ cast }) => {
                     url = `https://image.tmdb.org/t/p/w200/${profile_path}`;
                 } else {
                     url = 'https://ranobehub.org/img/ranobe/posters/default.jpg'
-                }
+                };
                 
                 return (
                     <Item key={cast_id}>
                         <Img src={url} alt={original_name} />
                         <TextWrap>
-                         <p>NAME: <Text>{original_name}</Text> </p>
-                         <p>CHARACTER: <Text>{character}</Text></p>
+                            <p>NAME: <Text>{original_name}</Text> </p>
+                            <p>CHARACTER: <Text>{character}</Text></p>
                         </TextWrap>
                     </Item>
                 )
             })}
         </List>
-    )
-
-}
+    );
+};

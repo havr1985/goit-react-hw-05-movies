@@ -2,12 +2,12 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchReviews } from "Api";
 import { ReviewsList } from "components/ReviewsList/ReviewsList";
+import { ErrorMsg } from "components/ErrorMessage/ErrorMessage";
 
 
 export default function Reviews() {
     const params = useParams();
     const [reviews, setReviews] = useState();
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
     useEffect(() => {
@@ -21,19 +21,15 @@ export default function Reviews() {
         };
         async function getReviews() {
             try {
-                setLoading(true);
                 setError(false);
                 const fetchedReviews = await fetchReviews(params.movieId, options);
                 setReviews(fetchedReviews);
-                console.log(fetchedReviews.results)
             } catch (error) {
                 if (error.code !== 'ERR_CANCELED') {
                     setError(true)
                 }
-            } finally {
-                setLoading(false)
-            }
-        }
+            } 
+        };
         getReviews();
         
         return () => {
@@ -43,10 +39,8 @@ export default function Reviews() {
 
     return (
         <div>
-            {loading && ("Loading...")}
-            {error && ("ERROR")}
+            {error && (<ErrorMsg />)}
             {reviews && (<ReviewsList reviews={reviews.results} />)}
         </div>
-    )
-    
+    );
 };

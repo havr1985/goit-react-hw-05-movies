@@ -4,6 +4,9 @@ import { fetchSearchList } from "Api";
 import { SearchBar } from "components/SearchBar/SearchBar";
 import { MoviesList } from "components/MoviesList/MoviesList";
 import { LoadMore } from "components/LoadMore/LoadMore";
+import { ErrorMsg } from "components/ErrorMessage/ErrorMessage";
+import { LoadSpinner } from "components/Loader";
+import toast, {Toaster} from "react-hot-toast"
 
 export default function Movies() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -39,6 +42,12 @@ export default function Movies() {
                 setLoading(true);
                 setError(false);
                 const moviesData = await fetchSearchList(movieName, page, options);
+                if (!moviesData.length) {
+                    toast.error("No movie was found for your request. Try again!");
+                    return
+                } else {
+                    toast.success("We found many movies according to your request!!!");
+                }
                 setMovies(prevState => [...prevState, ...moviesData]);
                 
             } catch (error) {
@@ -58,10 +67,11 @@ export default function Movies() {
     return (
         <main>
             <SearchBar onSubmit={handleSubmit} />
-            {loading && ("Loading...")}
-            {error && ("ERROR")}
+            {loading && (<LoadSpinner />)}
+            {error && (<ErrorMsg />)}
             <MoviesList movies={movies} />
             {movies.length > 0 && <LoadMore onClick={handleLoadMore} />}
+            <Toaster position="top-right"/>
         </main>
-    )
-}
+    );
+};

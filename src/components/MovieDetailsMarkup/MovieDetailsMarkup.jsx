@@ -4,12 +4,12 @@ export const MovieDetailsMarkup = ({ movie: { original_title, overview, poster_p
     let url = "";
     if (poster_path) {
         url = `https://image.tmdb.org/t/p/w300/${poster_path}`;
-        } else {
+    } else {
         url = 'https://ranobehub.org/img/ranobe/posters/default.jpg';
     };
     let newGenres = [];
     genres.forEach(genre => newGenres.push(genre.name));
-    newGenres = newGenres.join(', ')
+    newGenres = newGenres.join(', ');
 
     return (
         <DetailsWrap>
@@ -23,6 +23,5 @@ export const MovieDetailsMarkup = ({ movie: { original_title, overview, poster_p
                 <p>{newGenres}</p>
             </TextWrap>
         </DetailsWrap>
-    )
-
-}
+    );
+};

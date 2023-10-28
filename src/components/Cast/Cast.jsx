@@ -2,12 +2,11 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchCast } from "Api";
 import { CastList } from "components/CastList/CastList";
-
+import { ErrorMsg } from "components/ErrorMessage/ErrorMessage";
 
 export default function Cast() {
     const params = useParams();
     const [cast, setCast] = useState();
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
     useEffect(() => {
@@ -21,19 +20,15 @@ export default function Cast() {
         };
         async function getCast() {
             try {
-                setLoading(true);
                 setError(false);
                 const fetchedCast = await fetchCast(params.movieId, options);
                 setCast(fetchedCast);
-                console.log(fetchedCast)
             } catch (error) {
                 if (error.code !== 'ERR_CANCELED') {
                     setError(true)
                 }
-            } finally {
-                setLoading(false)
             }
-        }
+        };
         getCast();
         
         return () => {
@@ -41,13 +36,10 @@ export default function Cast() {
         }
     }, [params.movieId]);
 
-
-
     return (
-    <div>
-        {loading && ("Loading...")}
-        {error && ("ERROR")}
-        {cast && (<CastList cast={cast} />)}    
-    </div>
-    )
-}
+        <div>
+            {error && (<ErrorMsg />)}
+            {cast && (<CastList cast={cast} />)}
+        </div>
+    );
+};

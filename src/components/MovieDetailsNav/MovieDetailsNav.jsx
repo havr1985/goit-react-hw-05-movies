@@ -8,7 +8,7 @@ export const MovieDetailsNav = () => {
             </li>
             <li>
                 <Link to='reviews'>REVIEWS</Link>
-            </li>        
+            </li>
         </ListNav>
-    )
+    );
 };
